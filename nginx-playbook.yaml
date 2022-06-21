@@ -1,0 +1,23 @@
+---
+- name: This sets up an nginx webserver
+  hosts: localhost
+  tasks:
+  - name: Install nginx packages 
+    yum:
+      name: nginx
+      state: present
+  - name: ensure nginx is running
+    service:
+      name: nginx 
+      state: started
+  - name: Create a text file in directory using /bin/sh shell
+    shell: nginx -v 2> nginx_version.txt
+  - name: Open port 80 for http access
+    firewalld:
+      service: http
+      permanent: true
+      state: enabled
+  - name: Restart the firewalld service to load in the firewall changes
+    service: 
+      name: firewalld 
+      state: restarted
