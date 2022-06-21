@@ -1,0 +1,17 @@
+---
+- name: Check WebServer Version.
+  hosts: localhost
+  gather_facts: yes
+  tasks:
+    - name: "Populate Service Facts"
+      service_facts:
+
+    - name: "Check Apache Status"
+      shell: httpd -v > web_version.txt
+      when: ansible_facts.services['httpd.service'] is defined
+
+    - name: "Check Nginx Status"
+      shell: nginx -v 2> web_version.txt
+      when: ansible_facts.services['nginx.service'] is defined
+
+
